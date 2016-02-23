@@ -28,4 +28,26 @@ typedef struct {
 	double range;
 } azelrange_t;
 
+typedef struct {
+	char[24] name;
+	int number;
+	char classification;
+	int launchYear;
+	int launchNumber;
+	char launchPiece;
+	int epochYear;
+	double epochDay;
+	double dMeanMotionDiv2;
+	double ddMeanMotionDiv6;
+	double bstarDrag;
+	int tleElementNumber;
+	double inclination;
+	double raan;
+	double eccentricity;
+	double argumentOfPerigee;
+	double meanAnomaly;
+	double meanMotion;
+	int epochRevolutionNumber;
+} tle_t;
+
 #endif
