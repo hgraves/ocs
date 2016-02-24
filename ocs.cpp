@@ -30,7 +30,7 @@ int main(void) {
 	test = sidereal.julianDate(1995,10,1);
 	printf("10-1-1995 - %lf\n",test);
 
-	srtNow = sidereal.julianDate(tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+	srtNow = sidereal.julianDate();
 	printf("SRT Now - %lf\n",srtNow);
 
 	tnow.hour = 9;

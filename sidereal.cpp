@@ -62,35 +62,21 @@ double sidereal_class::calculateGMST(int year, int month, int day) {
 
 double sidereal_class::julianDate(int year, int month, int day) {
 
-	double doy;
-	double JD;
-
-	JD = julianYear(year);
-	doy = dayOfYear(year, month, day);
-
-	return(JD+doy);
-}
-
-double sidereal_class::julianYear(int year) {
+	int doy;
+	double julianYear;
 	int tmpYear;
 	int A, B;
-
-	tmpYear = year - 1;
-
-	A = int(tmpYear/100);
-
-	B = 2 - A + int(A/4.0);
-
-	return (int(365.25 * tmpYear) + int(30.6001 * 14.0) + 1720994.5 + B);
-
-}
-
-int sidereal_class::dayOfYear(int year, int month, int day) {
-
 	int days[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 	int i;
 	int tmpDay=0;
 
+	/* calculate julian year */
+	tmpYear = year - 1;
+	A = int(tmpYear/100);
+	B = 2 - A + int(A/4.0);
+	julianYear = int(365.25 * tmpYear) + int(30.6001 * 14.0) + 1720994.5 + B;
+
+	/* calculate julian year */
 	for(i=0;i<(month-1);i++) {
 		tmpDay += days[i];
 	}
@@ -99,5 +85,42 @@ int sidereal_class::dayOfYear(int year, int month, int day) {
 	if (((year % 4) == 0) && (((year % 100) != 0) || ((year % 400) == 0)) && (month > 2)) 
 		tmpDay += 1;
 
-	return (tmpDay);
+	doy = tmpDay;
+
+	return(julianYear + (double)doy);
+}
+
+double sidereal_class::julianDate() {
+
+	time_t t = time(NULL);
+	struct tm tm = *localtime(&t);
+	int doy;
+	double julianYear;
+	int tmpYear;
+	int A, B;
+	int days[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+	int i;
+	int tmpDay=0;
+	int year=tm.tm_year + 1900; 
+	int month=tm.tm_mon + 1;
+	int day=tm.tm_mday;
+
+	/* calculate julian year */
+	tmpYear = year - 1;
+	A = int(tmpYear/100);
+	B = 2 - A + int(A/4.0);
+	julianYear = int(365.25 * tmpYear) + int(30.6001 * 14.0) + 1720994.5 + B;
+
+	/* calculate julian year */
+	for(i=0;i<(month-1);i++) {
+		tmpDay += days[i];
+	}
+	tmpDay += day;
+
+	if (((year % 4) == 0) && (((year % 100) != 0) || ((year % 400) == 0)) && (month > 2)) 
+		tmpDay += 1;
+
+	doy = tmpDay;
+
+	return(julianYear + (double)doy);
 }
